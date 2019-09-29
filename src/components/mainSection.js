@@ -10,13 +10,15 @@ export default class mainSection extends Component {
         this.state = {
           articles: [],
           portfolio_assets: [],
-          seed_company: 'twitter'
+          //  default seed company is twitter
+          seed_company: 'snapchat',
+          user: 2
         }
     }
 
-    queryRecommendations() {
-        const recom_url = `/recommendations/recommendations_${this.state.seed_company}.json`;
-         console.log(recom_url)
+    queryRecommendations(company) {
+        const recom_url = `/recommendations/recommendations_${company.toLowerCase()}.json`;
+         console.log(recom_url);
          axios.get(recom_url) // JSON File Path
            .then( response => {
              this.setState({
@@ -30,9 +32,9 @@ export default class mainSection extends Component {
     }
 
     componentWillMount() {
-        this.queryRecommendations();
+        this.queryRecommendations(this.state.seed_company);
 
-      axios.get('/user_data/user_portfolio_1.txt') // JSON File Path
+      axios.get(`/user_data/user_portfolio_${this.state.user}.txt`) // JSON File Path
        .then( response => {
          this.setState({
          portfolio_assets: response.data
@@ -45,18 +47,20 @@ export default class mainSection extends Component {
     }
 
     handleCompanyChange(old_seed_company, changed_company) {
+        console.log('yoooooooo', changed_company)
         if (changed_company.toLowerCase() === old_seed_company) {
             return
         }
         this.setState({
             seed_company: changed_company.toLowerCase()
         });
-        this.queryRecommendations();
+        console.log('brooo', this.state.seed_company)
+        this.queryRecommendations(changed_company);
         this.forceUpdate();
     };
 
     render() {
-        console.log(this.state.seed_company)
+        console.log(this.state.seed_company);
         const articles = this.state.articles;
         const portfolio_assets = this.state.portfolio_assets;
         let ArticleSectionPlaceHolder = '';

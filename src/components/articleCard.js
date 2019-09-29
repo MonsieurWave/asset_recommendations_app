@@ -35,6 +35,11 @@ export default function ArticleCard(props) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
+  let tag = (<Chip label={props.company_tag} size="small"/>)
+  if (props.company_tag === '' || props.company_tag.length === 0) {
+    tag = ('')
+  }
+
   return (
     <Card className={classes.card}>
       <CardContent>
@@ -50,7 +55,7 @@ export default function ArticleCard(props) {
         <Button size="small" className={classes.light}>
           <i>{formatDate(props.date)}</i>
         </Button>
-        <Chip label={props.company_tag} size="small"/>
+        {tag}
       </CardActions>
     </Card>
   );
