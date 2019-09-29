@@ -22,6 +22,10 @@ export default function ArticleFeed(props) {
 
   const ArticleSection = props.articles.map(article => {
     console.log(article)
+    let companyTag = article.Companies;
+    if (Array.isArray(article.Companies)) {
+        companyTag = article.Companies[0];
+    }
 
     return (
         <div>
@@ -30,7 +34,7 @@ export default function ArticleFeed(props) {
                  <ArticleCard title={article.title}
                  body={article.desc}
                  date={new Date(article.publication_date/1)}
-                 company_tag={article.Companies[0]}
+                 company_tag={companyTag}
                 />
             }
             sentiment={article.sentiment}
