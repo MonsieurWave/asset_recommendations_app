@@ -10,6 +10,7 @@ import Chip from '@material-ui/core/Chip';
 const useStyles = makeStyles({
   card: {
     minWidth: 275,
+    marginBottom: '1px',
   },
   bullet: {
     display: 'inline-block',

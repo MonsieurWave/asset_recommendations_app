@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { scaleThreshold } from 'd3-scale';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import CardContent from "@material-ui/core/CardContent";
 
 function palette(min, max) {
     const d = (max-min)/9;
@@ -18,8 +17,8 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(3, 2),
     maxWidth: '50%',
     margin: 'auto',
-    marginBottom: '10px',
-    marginTop: '10px'
+    marginBottom: '15px',
+    marginTop: '15px'
   },
 }));
 
