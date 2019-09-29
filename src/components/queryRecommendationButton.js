@@ -53,6 +53,7 @@ export default function QueryRecommendationButton(props) {
         console.log('Query is back.');
         setRequestPending(false);
         setIcon(defaultIcon);
+        window.location.reload();
         return true;
     })
   };
