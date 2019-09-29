@@ -39,8 +39,15 @@ export default function PortfolioSection(props) {
     }],
     // These labels appear in the legend and in the tooltips when hovering different arcs
     labels: labelDataArray
-};
+    };
 
+  const clickHandler = elems => {
+    if (typeof elems[0] === 'undefined') {
+        return
+    }
+    const selected_company = data.labels[elems[0]._index].split(' ').slice(0, -1).join(' ');
+    props.handleChange(selected_company)
+  };
 
   return (
       <Paper className={classes.root}>
@@ -50,7 +57,9 @@ export default function PortfolioSection(props) {
         <Typography variant="body2" component="p">
           by Issuer
         </Typography>
-        <Doughnut data={data}/>
+        <Doughnut data={data}
+                  onElementsClick={clickHandler}
+        />
       </Paper>
   );
 };

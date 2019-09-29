@@ -9,21 +9,28 @@ export default class mainSection extends Component {
         super();
         this.state = {
           articles: [],
-          portfolio_assets: []
+          portfolio_assets: [],
+          seed_company: 'twitter'
         }
-      }
+    }
+
+    queryRecommendations() {
+        const recom_url = `/recommendations/recommendations_${this.state.seed_company}.json`;
+         console.log(recom_url)
+         axios.get(recom_url) // JSON File Path
+           .then( response => {
+             this.setState({
+             articles: response.data
+           });
+             console.log(response)
+         })
+         .catch(function (error) {
+           console.log(error);
+         });
+    }
 
     componentWillMount() {
-     axios.get('/recommendations/recommendations.json') // JSON File Path
-       .then( response => {
-         this.setState({
-         articles: response.data
-       });
-         console.log(response)
-     })
-     .catch(function (error) {
-       console.log(error);
-     });
+        this.queryRecommendations();
 
       axios.get('/user_data/user_portfolio_1.txt') // JSON File Path
        .then( response => {
@@ -37,19 +44,37 @@ export default class mainSection extends Component {
      });
     }
 
+    handleCompanyChange(old_seed_company, changed_company) {
+        if (changed_company.toLowerCase() === old_seed_company) {
+            return
+        }
+        this.setState({
+            seed_company: changed_company.toLowerCase()
+        });
+        this.queryRecommendations();
+        this.forceUpdate();
+    };
 
     render() {
+        console.log(this.state.seed_company)
         const articles = this.state.articles;
         const portfolio_assets = this.state.portfolio_assets;
         let ArticleSectionPlaceHolder = '';
         let PortfolioSectionPlaceHolder = '';
 
         if(articles.length > 0) {
-            ArticleSectionPlaceHolder = (<ArticleFeed articles={articles}/>)
+            ArticleSectionPlaceHolder = (
+                <ArticleFeed articles={articles}
+                />
+                )
         }
 
         if(portfolio_assets.length > 0) {
-            PortfolioSectionPlaceHolder = (<PortfolioSection portfolio={portfolio_assets}/>)
+            PortfolioSectionPlaceHolder = (
+                <PortfolioSection
+                    portfolio={portfolio_assets}
+                    handleChange={(c) => this.handleCompanyChange(this.state.seed_company, c)}
+                />)
         }
 
         return (
